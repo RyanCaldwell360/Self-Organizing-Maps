@@ -39,8 +39,8 @@ class SOM:
 
         # store winning nodes in a dictonary
         # {record index, winning node index}
-        winners = {}
-        distances = {}
+        winners = []
+        distances = []
 
         # iterate over each epoch
         for ep in range(self.epochs):
@@ -53,10 +53,15 @@ class SOM:
                 dist, ind = self._neighbors(record.reshape(1,-1), kdtree)
 
                 if ep == self.epochs - 1:
-                    winners[i] = ind
-                    distances[i] = dist
+                    winners.append(ind[0][0])
+                    distances.append(dist[0][0])
 
                 # update weights
                 weights = self._update_weights(record, weights, ind)
 
-        return weights, winners, distances
+        return kdtree, weights, winners, distances
+
+    def predict(self, data, tree):
+        dist, ind = tree.query(data, k=1)
+
+        return dist, ind

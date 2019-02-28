@@ -13,6 +13,11 @@ X = ss.fit_transform(boston)
 # instantiate SOM
 som = SOM(X, 3, 3, 1, 100, 0.01)
 # train model
-weights, winners, distances = som.train(X)
+tree, weights, winners, distances = som.train(X)
 # print data
-print(weights)
+# print(weights)
+print(set(winners))
+
+
+dist, ind = som.predict(X, tree)
+print(set([x[0] for x in ind]))
